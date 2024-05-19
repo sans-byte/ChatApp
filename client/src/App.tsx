@@ -11,7 +11,7 @@ function App() {
   const messageRef = useRef<HTMLInputElement>(null);
   const socket = useSocket();
   const [user, setUser] = useState<User | null>(null);
-  const [reciever, setReciever] = useState<User | null>(null);
+  const [recieverId, setRecieverId] = useState<User | null>(null);
   const [allUserIds, setAllUserIds] = useState<String[]>([]);
 
   useEffect(() => {
@@ -58,7 +58,9 @@ function App() {
   const sendMessage = () => {
     if (socket && messageRef.current) {
       const message = messageRef.current.value;
-      socket?.send(JSON.stringify({ id: reciever, text: message, type: CHAT }));
+      socket?.send(
+        JSON.stringify({ id: recieverId, text: message, type: CHAT })
+      );
     } else {
       console.log("error", socket);
       console.log("error", messageRef.current?.value);
@@ -93,7 +95,8 @@ function App() {
               <OnlineUsers
                 userIds={allUserIds}
                 currentUser={user}
-                setReciever={setReciever}
+                setRecieverId={setRecieverId}
+                recieverId={recieverId}
               />
             </div>
           </div>
