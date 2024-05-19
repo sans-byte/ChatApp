@@ -43,7 +43,7 @@ function App() {
     console.log(message);
   };
 
-  const handleInitializeChat = (message) => {
+  const handleInitializeChat = (message: any) => {
     if (!sessionStorage.getItem("user")) {
       sessionStorage.setItem("user", message.id);
       setUser({ id: message.id, socket });
