@@ -4,6 +4,7 @@ const ws_1 = require("ws");
 const constants_1 = require("./constants");
 const generateId = () => Math.floor(Math.random() * 10000000).toString();
 const wss = new ws_1.WebSocketServer({ port: 8080 });
+console.log("hello");
 const users = new Map();
 wss.on('connection', function connection(ws) {
     ws.on('error', (err) => console.error(`WebSocket error: ${err}`));
