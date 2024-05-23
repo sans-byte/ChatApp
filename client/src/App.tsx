@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { useSocket } from "./hooks/useSocket";
 import { CHAT, INIT_CHAT } from "../Constants";
 import OnlineUsers from "./OnlineUsers";
+import ChatWindow from "./ChatWindow";
 
 function App() {
   interface User {
     id: string;
     socket: WebSocket | null;
   }
-  const messageRef = useRef<HTMLInputElement>(null);
   const socket = useSocket();
   const [user, setUser] = useState<User | null>(null);
   const [recieverId, setRecieverId] = useState<User | null>(null);
@@ -55,18 +55,6 @@ function App() {
     console.log("User Initialized", message.id);
   };
 
-  const sendMessage = () => {
-    if (socket && messageRef.current) {
-      const message = messageRef.current.value;
-      socket?.send(
-        JSON.stringify({ id: recieverId, text: message, type: CHAT })
-      );
-    } else {
-      console.log("error", socket);
-      console.log("error", messageRef.current?.value);
-    }
-  };
-
   return (
     <>
       {!socket ? (
@@ -100,28 +88,7 @@ function App() {
               />
             </div>
           </div>
-          <div
-            style={{
-              marginTop: "50px",
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <input
-              type="text"
-              ref={messageRef}
-              style={{
-                padding: "10px",
-                marginRight: "10px",
-                borderRadius: "10px",
-                border: "1px solid white",
-              }}
-            />
-            <button onClick={sendMessage}> Send </button>
-          </div>
+          <ChatWindow socket={socket} />
         </div>
       )}
     </>
